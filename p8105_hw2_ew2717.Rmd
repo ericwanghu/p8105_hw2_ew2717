@@ -1,0 +1,14 @@
+---
+title: "p8105_hw2_ew2717"
+author: "Eric Wang"
+output: github_document
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+
+library(tidyverse)
+library(readxl)
+library(lubridate)
+
+```
+
