@@ -90,11 +90,25 @@ Using the function above, we find that the total amount of precipitation in 2018
 
 ```{r finding median sports balls}
 
-
+## median_sportsballs_2019 = median()
 
 ```
 
 As seen above, the median number of sports balls in a dumpster in 2019 was r median_sportsballs_2019.
 
 ## Problem 2
+
+#### Importing data from FiveThirtyEight and cleaning it.
+
+```{r importing and cleaning fivethirtyeight}
+
+pols_month_data <- 
+  read_csv("data/fivethirtyeight_datasets/pols-month.csv") %>% 
+  janitor::clean_names()
+  
+  
+
+```
+
+
 
