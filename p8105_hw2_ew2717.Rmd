@@ -191,3 +191,17 @@ The unemployment data set contains data regarding the percentage of unemployment
 
 ## Importing and cleaning baby name data. 
 
+```{r importing then cleaning baby name data}
+
+baby_name_data <-
+  read_csv("data/Popular_Baby_Names.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(gender = str_to_sentence(gender),
+  ethnicity = recode(ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC", "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER", "WHITE NON HISP" = "WHITE NON HISPANIC"),
+  ethnicity = str_to_sentence(ethnicity),
+  childs_first_name = str_to_sentence(childs_first_name))
+
+view(baby_name_data)
+
+```
+
