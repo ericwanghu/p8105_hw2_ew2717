@@ -100,7 +100,7 @@ We have found that the variable names for the 2018 precipitation data set are **
 
 #### Importing data from FiveThirtyEight, specifically pols-month, and cleaning it.
 
-```{r importing and cleaning fivethirtyeight}
+```{r importing and cleaning pols-month}
 
 pols_month_data <- 
   read_csv("data/fivethirtyeight_datasets/pols-month.csv") %>%
@@ -118,7 +118,7 @@ view(pols_month_data)
 
 #### Importing data from FiveThirtyEight, specifically snp, and cleaning it.
 
-```{r}
+```{r importing and cleaning snp}
 
 snp_data <- 
   read_csv("data/fivethirtyeight_datasets/snp.csv") %>%
@@ -135,7 +135,7 @@ view(snp_data)
 
 #### Importing data from FiveThirtyEight, specifically unemployment, and cleaning it.
 
-```{r}
+```{r importing and cleaning unemployment}
 
 unemployment_data <- 
   read_csv("data/fivethirtyeight_datasets/unemployment.csv") %>%
@@ -150,4 +150,31 @@ unemployment_data <-
 view(unemployment_data)
 
 ```
+
+#### Combining the pols and snp data.
+
+```{r}
+
+pols_snp_merged <-
+  left_join(pols_month_data, snp_data, by = c("year", "month"))
+
+view(pols_snp_merged)
+
+```
+
+
+#### Combining newly constructed data and umeployment data. 
+
+```{r}
+
+final_merged <-
+  left_join(pols_snp_merged, unemployment_data, by = c("year", "month"))
+
+view(final_merged)
+
+```
+
+
+
+
 
