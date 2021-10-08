@@ -98,7 +98,7 @@ We have found that the variable names for the 2018 precipitation data set are **
 
 ## Problem 2
 
-#### Importing data from FiveThirtyEight and cleaning it.
+#### Importing data from FiveThirtyEight, specifically pols-month, and cleaning it.
 
 ```{r importing and cleaning fivethirtyeight}
 
@@ -116,6 +116,8 @@ view(pols_month_data)
 
 ```
 
+#### Importing data from FiveThirtyEight, specifically snp, and cleaning it.
+
 ```{r}
 
 snp_data <- 
@@ -126,11 +128,26 @@ snp_data <-
   mutate(across(.col = c(year, month, day), as.integer)) %>% 
   mutate(month = month.name[month]) %>% 
   select(-day)
-  
 
 view(snp_data)
   
 ```
 
+#### Importing data from FiveThirtyEight, specifically unemployment, and cleaning it.
 
+```{r}
+
+unemployment_data <- 
+  read_csv("data/fivethirtyeight_datasets/unemployment.csv") %>%
+  janitor::clean_names() %>%
+  pivot_longer(
+  jan:dec,
+  names_to = "month", 
+  values_to = "percentage") %>% 
+  mutate(across(.col = c(year), as.integer)) %>% 
+  mutate(month = recode(month, "jan" = "January", "feb" = "February", "mar" = "March", "apr" = "April", "may" = "May", "jun" = "June", "jul" = "July", "aug" = "August", "sep" = "September", "oct" = "October", "nov" = "November", "dec" = "December"))
+  
+view(unemployment_data)
+
+```
 
