@@ -107,9 +107,12 @@ pols_month_data <-
   janitor::clean_names() %>%
   separate(col = mon, into = c("year","month", "day")) %>% 
   mutate(across(.col = c(year, month, day), as.integer)) %>% 
-  mutate(month = month.name[month])
+  mutate(month = month.name[month]) %>% 
+  mutate(president = case_when(prez_gop == 1 ~ "gop", prez_gop == 2 ~ "gop", prez_dem == 1 ~ "dem")) %>% 
+  select(-day, -prez_dem, -prez_gop) %>% 
+  select(year, month, president, everything())
 
-pols_month_data
+view(pols_month_data)
 
 ```
 
