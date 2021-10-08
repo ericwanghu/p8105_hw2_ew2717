@@ -14,7 +14,9 @@ library(lubridate)
 
 ## Problem 1
 
-```{r importing data}
+Importing data from Mr. Trash Wheel, cleaning the data, and then filtering it.
+
+```{r importing, cleaning, filtering trash wheel}
 
 trash_wheel_data <-
   read_excel("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
@@ -27,5 +29,54 @@ trash_wheel_data <-
 view(trash_wheel_data)
 
 ```
+
+Importing data from 2018 Precipitation, cleaning the data, and then filtering it.
+
+```{r importing, cleaning, filtering 2018 precipitation}
+
+precipitation_2018_data <-
+  read_excel("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+  sheet = "2018 Precipitation",
+  range = "A2:B15") %>% 
+  janitor::clean_names() %>% 
+  mutate(year = 2018) %>% 
+  drop_na()
+
+view(precipitation_2018_data)
+
+```
+
+Importing data from 2019 Precipitation, cleaning the data, and then filtering it.
+
+```{r importing, cleaning, filtering 2019 precipitation}
+
+precipitation_2019_data <-
+  read_excel("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+  sheet = "2019 Precipitation",
+  range = "A2:B15") %>% 
+  janitor::clean_names() %>% 
+  mutate(year = 2019) %>% 
+  drop_na()
+
+view(precipitation_2019_data)
+
+```
+
+Combining the data from 2018 Precipitation and 2019 Precipitation. 
+
+```{r}
+
+precipitation_combined_data <-
+  bind_rows(precipitation_2018_data, precipitation_2019_data) %>% 
+  mutate(month = month.name[month]) %>% 
+  relocate(year, month, total)
+
+view(precipitation_combined_data)
+
+```
+
+
+
+
 
 
