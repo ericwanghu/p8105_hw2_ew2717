@@ -116,5 +116,21 @@ view(pols_month_data)
 
 ```
 
+```{r}
+
+snp_data <- 
+  read_csv("data/fivethirtyeight_datasets/snp.csv") %>%
+  janitor::clean_names() %>% 
+  mutate(date = mdy(date)) %>% 
+  separate(col = date, into = c("year","month", "day")) %>% 
+  mutate(across(.col = c(year, month, day), as.integer)) %>% 
+  mutate(month = month.name[month]) %>% 
+  select(-day)
+  
+
+view(snp_data)
+  
+```
+
 
 
