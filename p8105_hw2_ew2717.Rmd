@@ -14,7 +14,7 @@ library(lubridate)
 
 ## Problem 1
 
-Importing data from Mr. Trash Wheel, cleaning the data, and then filtering it.
+#### Importing data from Mr. Trash Wheel, cleaning the data, and then filtering it.
 
 ```{r importing, cleaning, filtering trash wheel}
 
@@ -30,7 +30,7 @@ trash_wheel_data <-
 
 ```
 
-Importing data from 2018 Precipitation, cleaning the data, and then filtering it.
+#### Importing data from 2018 Precipitation, cleaning the data, and then filtering it.
 
 ```{r importing, cleaning, filtering 2018 precipitation}
 
@@ -46,7 +46,7 @@ precipitation_2018_data <-
 
 ```
 
-Importing data from 2019 Precipitation, cleaning the data, and then filtering it.
+#### Importing data from 2019 Precipitation, cleaning the data, and then filtering it.
 
 ```{r importing, cleaning, filtering 2019 precipitation}
 
@@ -62,7 +62,7 @@ precipitation_2019_data <-
 
 ```
 
-Combining the data from 2018 Precipitation and 2019 Precipitation. 
+#### Combining the data from 2018 Precipitation and 2019 Precipitation. 
 
 ```{r combining data}
 
@@ -75,9 +75,9 @@ precipitation_combined_data <-
 
 ```
 
-Find the total precipitation for 2018 Precipitation and 2019 Precipitation.
+#### Finding the total precipitation for 2018 Precipitation and 2019 Precipitation.
 
-```{r finding total}
+```{r finding total precipitation}
 
 total_precipitation_2018 = sum(precipitation_2018_data$total)
 total_precipitation_2019 = sum(precipitation_2019_data$total)
@@ -85,4 +85,16 @@ total_precipitation_2019 = sum(precipitation_2019_data$total)
 ```
 
 Using the function above, we find that the total amount of precipitation in 2018 was `r total_precipitation_2018`.The total amount of precipitation in 2019 was `r total_precipitation_2019`.
+
+#### Finding the median number of sports balls in a dumpster in 2019.
+
+```{r finding median sports balls}
+
+
+
+```
+
+As seen above, the median number of sports balls in a dumpster in 2019 was r median_sportsballs_2019.
+
+## Problem 2
 
