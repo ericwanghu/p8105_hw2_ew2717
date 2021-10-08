@@ -67,7 +67,7 @@ precipitation_combined_data <-
 
 ```
 
-#### Data Observations
+#### Data Observations.
 
 ```{r names total median mean rows and cols}
 
@@ -158,7 +158,7 @@ final_merged <-
 
 #### Data Observations
 
-```{r data observations}
+```{r data observations for all three data sets}
 
 pols_names = pols_month_data %>% names()
 pols_dimension = pols_month_data %>%  dim()
@@ -187,9 +187,9 @@ The snp data set contains data that regarding Standard & Poor’s stock market i
 The unemployment data set contains data regarding the percentage of unemployment for specific years and months. The important variables are **`r unemployment_names`**. The dimensions for the data set are **`r unemployment_dimension`**. The range of years for the data set are **`r unemployment_yrrange`**. 
 
 
-#### Problem 3
+## Problem 3
 
-## Importing and cleaning baby name data. 
+#### Importing and cleaning baby name data. 
 
 ```{r importing then cleaning baby name data}
 
@@ -197,11 +197,47 @@ baby_name_data <-
   read_csv("data/Popular_Baby_Names.csv") %>% 
   janitor::clean_names() %>% 
   mutate(gender = str_to_sentence(gender),
-  ethnicity = recode(ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC", "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER", "WHITE NON HISP" = "WHITE NON HISPANIC"),
-  ethnicity = str_to_sentence(ethnicity),
-  childs_first_name = str_to_sentence(childs_first_name))
+  ethnicity = recode(ethnicity, 
+                     "BLACK NON HISP" = "BLACK NON HISPANIC", 
+                     "WHITE NON HISP" = "WHITE NON HISPANIC", 
+                     "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER", 
+                     "ASIAN AND PACIFIC" = "ASIAN AND PACIFIC ISLANDER"),
+  ethnicity = str_to_title(ethnicity),
+  childs_first_name = str_to_sentence(childs_first_name)
+  )
 
-view(baby_name_data)
+```
+
+#### Removing duplicate rows from baby name data.
+
+```{r removing duplicate rows for baby name}
+
+baby_name_data <-
+    baby_name_data %>% distinct()
+
+```
+
+#### Producing well-structured and reader-friendly table showing the rank in popularity of the name “Olivia".
+
+```{r producing table showing popularity of "olivia"}
+
+olivia_table <-
+  filter(baby_name_data, childs_first_name == "Olivia") %>%
+  select(-count) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank") %>% 
+  select(childs_first_name, gender, ethnicity, "2011", "2012", "2013", "2014", "2015", "2016")
+
+knitr::kable(olivia_table)
+
+```
+
+#### Producing a scatter plot showing the number of children with a name (y axis) against the rank in popularity of that name (x axis) for male, white non-hispanic children born in 2016
+
+```{r producing scatter plot of male, white hispanic children 2016}
+
+
 
 ```
 
