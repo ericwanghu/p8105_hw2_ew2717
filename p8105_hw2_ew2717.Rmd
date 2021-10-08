@@ -26,8 +26,6 @@ trash_wheel_data <-
   filter(!str_detect(month,'Total')) %>% 
   mutate(sports_balls = round(sports_balls))
 
-## view(trash_wheel_data)
-
 ```
 
 #### Importing data from 2018 Precipitation, cleaning the data, and then filtering it.
@@ -41,8 +39,6 @@ precipitation_2018_data <-
   janitor::clean_names() %>% 
   mutate(year = 2018) %>% 
   drop_na()
-
-## view(precipitation_2018_data)
 
 ```
 
@@ -58,8 +54,6 @@ precipitation_2019_data <-
   mutate(year = 2019) %>% 
   drop_na()
 
-## view(precipitation_2019_data)
-
 ```
 
 #### Combining the data from 2018 Precipitation and 2019 Precipitation. 
@@ -70,8 +64,6 @@ precipitation_combined_data <-
   bind_rows(precipitation_2018_data, precipitation_2019_data) %>% 
   mutate(month = month.name[month]) %>% 
   relocate(year, month, total)
-
-## view(precipitation_combined_data)
 
 ```
 
@@ -94,7 +86,7 @@ precipitation2019_col = precipitation_2019_data %>% ncol()
 
 ```
 
-We have found that the variable names for the 2018 precipitation data set are **`r precipitation2018_names`**, and the variable names for the 2019 precipitation data set are **`r precipitation2019_names`**. The total amount of precipitation in 2018 was **`r precipitation2018_total`**, and the total amount of precipitation in 2019 was **`r precipitation2019_total`**.The mean amount of precipitation in 2018 was **`r precipitation2018_mean`**, and the mean amount of precipitation in 2019 was **`r precipitation2019_mean`**. The median amount of precipitation in 2018 was **`r precipitation2018_median`**, and the median amount of precipitation in 2019 was **`r precipitation2019_median`**. The total number of rows in the 2018 precipitation data set is **`r precipitation2018_row`**, and the total number of rows in the 2019 precipitation data set is **`r precipitation2019_row`**. Lastly, the total number of columns in the 2018 precipitation data set is **`r precipitation2018_col`**, and the total number of columns in the 2019 precipitation data set is **`r precipitation2019_col`**.
+The variable names for the 2018 precipitation data set are **`r precipitation2018_names`**, and the variable names for the 2019 precipitation data set are **`r precipitation2019_names`**. The total amount of precipitation in 2018 was **`r precipitation2018_total`**, and the total amount of precipitation in 2019 was **`r precipitation2019_total`**.The mean amount of precipitation in 2018 was **`r precipitation2018_mean`**, and the mean amount of precipitation in 2019 was **`r precipitation2019_mean`**. The median amount of precipitation in 2018 was **`r precipitation2018_median`**, and the median amount of precipitation in 2019 was **`r precipitation2019_median`**. The total number of rows in the 2018 precipitation data set is **`r precipitation2018_row`**, and the total number of rows in the 2019 precipitation data set is **`r precipitation2019_row`**. Lastly, the total number of columns in the 2018 precipitation data set is **`r precipitation2018_col`**, and the total number of columns in the 2019 precipitation data set is **`r precipitation2019_col`**.
 
 ## Problem 2
 
@@ -112,8 +104,6 @@ pols_month_data <-
   select(-day, -prez_dem, -prez_gop) %>% 
   select(year, month, president, everything())
 
-view(pols_month_data)
-
 ```
 
 #### Importing data from FiveThirtyEight, specifically snp, and cleaning it.
@@ -123,13 +113,11 @@ view(pols_month_data)
 snp_data <- 
   read_csv("data/fivethirtyeight_datasets/snp.csv") %>%
   janitor::clean_names() %>% 
-  mutate(date = mdy(date)) %>% 
-  separate(col = date, into = c("year","month", "day")) %>% 
-  mutate(across(.col = c(year, month, day), as.integer)) %>% 
-  mutate(month = month.name[month]) %>% 
-  select(-day)
-
-view(snp_data)
+  separate(date, sep = "/", into = c("month", "day", "year")) %>%
+  mutate(across(.cols = c("month", "day", "year"), as.integer)) %>%
+  mutate(month = month.name[month]) %>%
+  mutate(year = ifelse(year > 21, 1900 + year, 2000 + year)) %>%
+  select(year, month, close)
   
 ```
 
@@ -146,8 +134,6 @@ unemployment_data <-
   values_to = "percentage") %>% 
   mutate(across(.col = c(year), as.integer)) %>% 
   mutate(month = recode(month, "jan" = "January", "feb" = "February", "mar" = "March", "apr" = "April", "may" = "May", "jun" = "June", "jul" = "July", "aug" = "August", "sep" = "September", "oct" = "October", "nov" = "November", "dec" = "December"))
-  
-view(unemployment_data)
 
 ```
 
@@ -157,8 +143,6 @@ view(unemployment_data)
 
 pols_snp_merged <-
   left_join(pols_month_data, snp_data, by = c("year", "month"))
-
-view(pols_snp_merged)
 
 ```
 
@@ -170,11 +154,40 @@ view(pols_snp_merged)
 final_merged <-
   left_join(pols_snp_merged, unemployment_data, by = c("year", "month"))
 
-view(final_merged)
+```
+
+#### Data Observations
+
+```{r data observations}
+
+pols_names = pols_month_data %>% names()
+pols_dimension = pols_month_data %>%  dim()
+pols_yrrange = pols_month_data %>% 
+  select(year) %>% 
+  range()
+
+snp_names = snp_data %>% names()
+snp_dimension = snp_data %>% dim()
+snp_yrrange = snp_data %>% 
+  select(year) %>% 
+  range()
+
+unemployment_names = unemployment_data %>% names()
+unemployment_dimension = unemployment_data %>% dim()
+unemployment_yrrange = unemployment_data %>% 
+  select(year) %>% 
+  range()
 
 ```
 
+The pols-month data set contains data regarding politicians and whether they are democratic or republican. The important variables are **`r pols_names`**. The dimensions for the data set are **`r pols_dimension`**. The range of years for the data set are **`r pols_yrrange`**. 
+
+The snp data set contains data that regarding Standard & Poor’s stock market index. The important variables are **`r snp_names`**. The dimensions for the data set are **`r snp_dimension`**. The range of years for the data set are **`r snp_yrrange`**. 
+
+The unemployment data set contains data regarding the percentage of unemployment for specific years and months. The important variables are **`r unemployment_names`**. The dimensions for the data set are **`r unemployment_dimension`**. The range of years for the data set are **`r unemployment_yrrange`**. 
 
 
+#### Problem 3
 
+## Importing and cleaning baby name data. 
 
