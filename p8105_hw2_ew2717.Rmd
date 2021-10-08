@@ -26,7 +26,7 @@ trash_wheel_data <-
   filter(!str_detect(month,'Total')) %>% 
   mutate(sports_balls = round(sports_balls))
 
-view(trash_wheel_data)
+## view(trash_wheel_data)
 
 ```
 
@@ -42,7 +42,7 @@ precipitation_2018_data <-
   mutate(year = 2018) %>% 
   drop_na()
 
-view(precipitation_2018_data)
+## view(precipitation_2018_data)
 
 ```
 
@@ -58,25 +58,31 @@ precipitation_2019_data <-
   mutate(year = 2019) %>% 
   drop_na()
 
-view(precipitation_2019_data)
+## view(precipitation_2019_data)
 
 ```
 
 Combining the data from 2018 Precipitation and 2019 Precipitation. 
 
-```{r}
+```{r combining data}
 
 precipitation_combined_data <-
   bind_rows(precipitation_2018_data, precipitation_2019_data) %>% 
   mutate(month = month.name[month]) %>% 
   relocate(year, month, total)
 
-view(precipitation_combined_data)
+## view(precipitation_combined_data)
 
 ```
 
+Find the total precipitation for 2018 Precipitation and 2019 Precipitation.
 
+```{r finding total}
 
+total_precipitation_2018 = sum(precipitation_2018_data$total)
+total_precipitation_2019 = sum(precipitation_2019_data$total)
 
+```
 
+Using the function above, we find that the total amount of precipitation in 2018 was `r total_precipitation_2018`.The total amount of precipitation in 2019 was `r total_precipitation_2019`.
 
