@@ -257,8 +257,6 @@ male_rank_data <-
   filter(baby_name_data, gender == "Male", ethnicity == "White Non Hispanic", year_of_birth == "2016") 
 male_rank_data
 
-view(male_rank_data)
-
 ```
 
 
@@ -266,7 +264,7 @@ view(male_rank_data)
 
 ```{r}
 
-male_rank_scatterplot = ggplot(male_rank_data, aes(x = rank, y = count)) + geom_point() + ggtitle("Name Popularity Rankings versus Count")
+male_rank_scatterplot = ggplot(male_rank_data, aes(x = rank, y = count)) + geom_point() + ggtitle("Name Popularity Rankings VS Count for Male White Non-hispanic Children")
 
 male_rank_scatterplot
 
